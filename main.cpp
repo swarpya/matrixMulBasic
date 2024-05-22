@@ -24,7 +24,7 @@ int main() {
     vector<int> v1 = {1, 2, 3, 4, 5, 6}; // 3x3 matrix
     vector<int> v2 = {1, 2, 3, 4, 5, 6}; // 3x2 matrix
 
-    int aRows = 2; // Number of rows in A
+    int aRows = 3; // Number of rows in A
     int aCols = 3; // Number of columns in A
     int bCols = 2; // Number of columns in B
 
