@@ -1540,6 +1540,7 @@ function dbg(...args) {
 
         result += '\n';
     }
+  }
 
 
          else
