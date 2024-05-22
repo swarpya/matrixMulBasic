@@ -24,10 +24,16 @@ int main() {
     vector<int> v1 = {1, 2, 3, 4, 5, 6}; // 3x3 matrix
     vector<int> v2 = {1, 2, 3, 4, 5, 6}; // 3x2 matrix
 
-    int aRows = 3; // Number of rows in A
-    int aCols = 3; // Number of columns in A
-    int bCols = 2; // Number of columns in B
+    int aRows;
+cout<<endl<<"number of rows in matrix A"<<endl;
+cin>>aRows;
 
+    int aCols;
+cout<<"number of Columns in matrix A"<<endl;
+cin>>aCols;
+    int bCols;
+cout<<endl<<"number of Columns in matrix B"<<endl;
+cin>>bCols;
     vector<int> v3 = mulMatrix(v1, v2, aRows, aCols, bCols);
 
     for (int i = 0; i < v3.size(); i++) {
