@@ -3,7 +3,7 @@
 // and export values on it. There are various ways Module can be used:
 // 1. Not defined. We create it here
 // 2. A function parameter, function(moduleArg) => Promise<Module>
-// 3. pre-run appended it, var Module = {}; ..generated code..
+// 3. pre-run appendedfff it, var Module = {}; ..generated code..
 // 4. External script tag defines var Module.
 // We need to check if Module already exists (e.g. case 3 above).
 // Substitution will be replaced with actual code on later stage of the build,
