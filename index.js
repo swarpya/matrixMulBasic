@@ -1504,7 +1504,7 @@ function dbg(...args) {
           typeof window.prompt == 'function') {
             let counter = 0;
           // Browser.
-          result = window.prompt('Input: ');  // returns null on cancel
+          result = window.prompt('Input: (Attempt ' + counter + ')');  // returns null on cancel
           if (result !== null) {
             result += '\n';
             counter++;
