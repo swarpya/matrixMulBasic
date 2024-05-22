@@ -21,8 +21,9 @@ vector<int> mulMatrix(vector<int> &v1, vector<int> &v2, int aRows, int aCols, in
 }
 
 int main() {
-    vector<int> v1 = {1, 2, 3, 4, 5, 6}; // 3x3 matrix
-    vector<int> v2 = {1, 2, 3, 4, 5, 6}; // 3x2 matrix
+    vector<int> v1;
+    vector<int> v2;
+
 
     int aRows;
 cout<<endl<<"number of rows in matrix A"<<endl;
@@ -34,6 +35,20 @@ cin>>aCols;
     int bCols;
 cout<<endl<<"number of Columns in matrix B"<<endl;
 cin>>bCols;
+
+for(int i = 0; i<(aRows*aCols);i++)
+{
+    int j;
+    cin>>j;
+    v1.push_back(j);
+}
+
+for(int i = 0; i<(aRows*bCols);i++)
+{
+    int j;
+    cin>>j;
+    v2.push_back(j);
+}
     vector<int> v3 = mulMatrix(v1, v2, aRows, aCols, bCols);
 
     for (int i = 0; i < v3.size(); i++) {
