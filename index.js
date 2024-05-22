@@ -1500,20 +1500,15 @@ function dbg(...args) {
             result = buf.slice(0, bytesRead).toString('utf-8');
           }
         } else
-        if (typeof window != 'undefined' && typeof window.prompt == 'function') {
-          // Define a counter variable
-          let counter = 0;
-        
-          // Increment the counter
-         
-        
-          // Display the prompt with the counter value
-          let result = window.prompt('Input: (Attempt ' + counter + ')'); // returns null on cancel
-          if (result !== null && counter<=4) {
-            counter++;
+        if (typeof window != 'undefined' &&
+          typeof window.prompt == 'function') {
+            let counter = 0;
+          // Browser.
+          result = window.prompt('Input: ');  // returns null on cancel
+          if (result !== null) {
             result += '\n';
+            counter++;
           }
-        }
         } else
         {}
         if (!result) {
