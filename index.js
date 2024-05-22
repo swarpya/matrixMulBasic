@@ -1502,44 +1502,53 @@ function dbg(...args) {
         } else
         if (typeof window != 'undefined' && typeof window.prompt == 'function') {
           // Browser.
-          result = window.prompt('Input: ');  // returns null on cancel
-          if (result !== null) {
-              // Split input by newline
-              let inputLines = result.trim().split('\n');
-      
-              // Assuming the input format is:
-              // First line: number of rows in matrix A
-              // Second line: number of columns in matrix A
-              // Third line: number of columns in matrix B
-              // Fourth line: elements of matrix A (space-separated)
-              // Fifth line: elements of matrix B (space-separated)
-      
-              // Counters
-              let numRowsA = parseInt(inputLines[0]);
-              let numColsA = parseInt(inputLines[1]);
-              let numColsB = parseInt(inputLines[2]);
-              let elementsA = inputLines[3].trim().split(' ').map(Number);
-              let elementsB = inputLines[4].trim().split(' ').map(Number);
-      
-              // Construct matrices from elements
-              let matrixA = [];
-              for (let i = 0; i < numRowsA; i++) {
-                  matrixA.push(elementsA.slice(i * numColsA, (i + 1) * numColsA));
-              }
-              let matrixB = [];
-              for (let i = 0; i < elementsB.length / numColsB; i++) {
-                  matrixB.push(elementsB.slice(i * numColsB, (i + 1) * numColsB));
-              }
-      
-              // Display counters
-              console.log(`Number of rows in Matrix A: ${numRowsA}`);
-              console.log(`Number of columns in Matrix A: ${numColsA}`);
-              console.log(`Number of columns in Matrix B: ${numColsB}`);
-              console.log(`Elements in Matrix A: ${elementsA.join(' ')}`);
-              console.log(`Elements in Matrix B: ${elementsB.join(' ')}`);
-      
-              result += '\n';
+          
+          // Number of rows in matrix A
+          let numRowsA = window.prompt('Number of rows in matrix A: ');
+          if (numRowsA !== null) {
+              numRowsA = parseInt(numRowsA);
           }
+          
+          // Number of columns in matrix A
+          let numColsA = window.prompt('Number of columns in matrix A: ');
+          if (numColsA !== null) {
+              numColsA = parseInt(numColsA);
+          }
+      
+          // Number of columns in matrix B
+          let numColsB = window.prompt('Number of columns in matrix B: ');
+          if (numColsB !== null) {
+              numColsB = parseInt(numColsB);
+          }
+      
+          // Elements in Matrix A
+          let elementsA = window.prompt('Elements in Matrix A (space-separated): ');
+          if (elementsA !== null) {
+              elementsA = elementsA.trim().split(' ').map(Number);
+          }
+      
+          // Elements in Matrix B
+          let elementsB = window.prompt('Elements in Matrix B (space-separated): ');
+          if (elementsB !== null) {
+              elementsB = elementsB.trim().split(' ').map(Number);
+          }
+      
+          // Construct matrices from elements
+          let matrixA = [];
+          for (let i = 0; i < numRowsA; i++) {
+              matrixA.push(elementsA.slice(i * numColsA, (i + 1) * numColsA));
+          }
+          let matrixB = [];
+          for (let i = 0; i < elementsB.length / numColsB; i++) {
+              matrixB.push(elementsB.slice(i * numColsB, (i + 1) * numColsB));
+          }
+      
+          // Display counters
+          console.log(`Number of rows in Matrix A: ${numRowsA}`);
+          console.log(`Number of columns in Matrix A: ${numColsA}`);
+          console.log(`Number of columns in Matrix B: ${numColsB}`);
+          console.log(`Elements in Matrix A: ${elementsA.join(' ')}`);
+          console.log(`Elements in Matrix B: ${elementsB.join(' ')}`);
       }
        else
         {}
