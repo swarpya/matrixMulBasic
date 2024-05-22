@@ -24,7 +24,3 @@ extern "C" {
         return result.data();
     }
 }
-
-int main() {
-    return 0; // Not used
-}
