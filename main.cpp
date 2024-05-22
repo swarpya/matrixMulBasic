@@ -46,6 +46,7 @@ for(int i = 0; i<(aRows*bCols);i++)
     int j;
     cin>>j;
     v2.push_back(j);
+}
 
     vector<int> v3 = mulMatrix(v1, v2, aRows, aCols, bCols);
 
