@@ -25,14 +25,14 @@ int main() {
     vector<int> v2;
 
     int aRows;
-cout<<endl<<"number of rows in matrix A"<<endl;
+
 cin>>aRows;
 
     int aCols;
-cout<<"number of Columns in matrix A"<<endl;
+
 cin>>aCols;
     int bCols;
-cout<<endl<<"number of Columns in matrix B"<<endl;
+
 cin>>bCols;
 
 for(int i = 0; i<(aRows*aCols);i++)
