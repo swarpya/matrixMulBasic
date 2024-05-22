@@ -1,58 +1,31 @@
-#include<iostream>
-#include<vector>
+
+#include <iostream>
+#include <vector>
+#include <emscripten.h>
+
 using namespace std;
 
-vector<int> mulMatrix(vector<int> &v1, vector<int> &v2, int aRows, int aCols, int bCols) {
-    vector<int> v3;
-    int sum = 0;
+extern "C" {
+    EMSCRIPTEN_KEEPALIVE
+    int* multiplyMatrices(int* v1, int* v2, int aRows, int aCols, int bCols) {
+        static vector<int> result(aRows * bCols);
+        int sum = 0;
 
-    for (int i = 0; i < aRows; i++) {
-        for (int j = 0; j < bCols; j++) {
-            sum = 0;
-            for (int k = 0; k < aCols; k++) {
-                int corA = v1[i * aCols + k]; // Element from the i-th row of A
-                int corB = v2[k * bCols + j]; // Element from the j-th column of B
-                sum += corA * corB;
+        for (int i = 0; i < aRows; i++) {
+            for (int j = 0; j < bCols; j++) {
+                sum = 0;
+                for (int k = 0; k < aCols; k++) {
+                    int corA = v1[i * aCols + k]; // Element from the i-th row of A
+                    int corB = v2[k * bCols + j]; // Element from the j-th column of B
+                    sum += corA * corB;
+                }
+                result[i * bCols + j] = sum; // Store the computed value in result
             }
-            v3.push_back(sum); // Store the computed value in v3
         }
+        return result.data();
     }
-    return v3;
 }
 
 int main() {
-    vector<int> v1;
-    vector<int> v2;
-
-
-    int aRows;
-cout<<endl<<"number of rows in matrix A"<<endl;
-cin>>aRows;
-
-    int aCols;
-cout<<"number of Columns in matrix A"<<endl;
-cin>>aCols;
-    int bCols;
-cout<<endl<<"number of Columns in matrix B"<<endl;
-cin>>bCols;
-
-for(int i = 0; i<(aRows*aCols);i++)
-{
-    int j;
-    cin>>j;
-    v1.push_back(j);
-}
-
-for(int i = 0; i<(aRows*bCols);i++)
-{
-    int j;
-    cin>>j;
-    v2.push_back(j);
-}
-    vector<int> v3 = mulMatrix(v1, v2, aRows, aCols, bCols);
-
-    for (int i = 0; i < v3.size(); i++) {
-        cout << v3[i] << " ";
-        if ((i + 1) % bCols == 0) cout << endl; // To print in matrix form
-    }
+    return 0; // Not used
 }
