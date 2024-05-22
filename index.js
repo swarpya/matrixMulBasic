@@ -1468,97 +1468,88 @@ function dbg(...args) {
     if (dontAddNull) u8array.length = numBytesWritten;
     return u8array;
   }
-  var FS_stdin_getChar = () => {
-      if (!FS_stdin_getChar_buffer.length) {
+  var FS_stdin_getChar_buffer = FS_stdin_getChar_buffer || [];
+
+var FS_stdin_getChar = () => {
+    if (!FS_stdin_getChar_buffer.length) {
         var result = null;
-        if (ENVIRONMENT_IS_NODE) {
-          // we will read data by chunks of BUFSIZE
-          var BUFSIZE = 256;
-          var buf = Buffer.alloc(BUFSIZE);
-          var bytesRead = 0;
-  
-          // For some reason we must suppress a closure warning here, even though
-          // fd definitely exists on process.stdin, and is even the proper way to
-          // get the fd of stdin,
-          // https://github.com/nodejs/help/issues/2136#issuecomment-523649904
-          // This started to happen after moving this logic out of library_tty.js,
-          // so it is related to the surrounding code in some unclear manner.
-          /** @suppress {missingProperties} */
-          var fd = process.stdin.fd;
-  
-          try {
-            bytesRead = fs.readSync(fd, buf, 0, BUFSIZE);
-          } catch(e) {
-            // Cross-platform differences: on Windows, reading EOF throws an
-            // exception, but on other OSes, reading EOF returns 0. Uniformize
-            // behavior by treating the EOF exception to return 0.
-            if (e.toString().includes('EOF')) bytesRead = 0;
-            else throw e;
-          }
-  
-          if (bytesRead > 0) {
-            result = buf.slice(0, bytesRead).toString('utf-8');
-          }
-        } else
-        if (typeof window != 'undefined' && typeof window.prompt == 'function') {
-          // Browser.
-          
-          // Number of rows in matrix A
-          let numRowsA = window.prompt('Number of rows in matrix A: ');
-          if (numRowsA !== null) {
-              numRowsA = parseInt(numRowsA);
-          }
-          
-          // Number of columns in matrix A
-          let numColsA = window.prompt('Number of columns in matrix A: ');
-          if (numColsA !== null) {
-              numColsA = parseInt(numColsA);
-          }
-      
-          // Number of columns in matrix B
-          let numColsB = window.prompt('Number of columns in matrix B: ');
-          if (numColsB !== null) {
-              numColsB = parseInt(numColsB);
-          }
-      
-          // Elements in Matrix A
-          let elementsA = window.prompt('Elements in Matrix A (space-separated): ');
-          if (elementsA !== null) {
-              elementsA = elementsA.trim().split(' ').map(Number);
-          }
-      
-          // Elements in Matrix B
-          let elementsB = window.prompt('Elements in Matrix B (space-separated): ');
-          if (elementsB !== null) {
-              elementsB = elementsB.trim().split(' ').map(Number);
-          }
-      
-          // Construct matrices from elements
-          let matrixA = [];
-          for (let i = 0; i < numRowsA; i++) {
-              matrixA.push(elementsA.slice(i * numColsA, (i + 1) * numColsA));
-          }
-          let matrixB = [];
-          for (let i = 0; i < elementsB.length / numColsB; i++) {
-              matrixB.push(elementsB.slice(i * numColsB, (i + 1) * numColsB));
-          }
-      
-          // Display counters
-          console.log(`Number of rows in Matrix A: ${numRowsA}`);
-          console.log(`Number of columns in Matrix A: ${numColsA}`);
-          console.log(`Number of columns in Matrix B: ${numColsB}`);
-          console.log(`Elements in Matrix A: ${elementsA.join(' ')}`);
-          console.log(`Elements in Matrix B: ${elementsB.join(' ')}`);
-      }
-       else
-        {}
+        if (typeof process !== 'undefined' && typeof require === 'function') {
+            // Node.js environment
+            var fs = require('fs');
+            var BUFSIZE = 256;
+            var buf = Buffer.alloc(BUFSIZE);
+            var bytesRead = 0;
+
+            var fd = process.stdin.fd;
+
+            try {
+                bytesRead = fs.readSync(fd, buf, 0, BUFSIZE);
+            } catch (e) {
+                if (e.toString().includes('EOF')) bytesRead = 0;
+                else throw e;
+            }
+
+            if (bytesRead > 0) {
+                result = buf.slice(0, bytesRead).toString('utf-8');
+            }
+        } else if (typeof window != 'undefined' && typeof window.prompt == 'function') {
+            // Browser.
+
+            // Number of rows in matrix A
+            let numRowsA = window.prompt('Number of rows in matrix A: ');
+            if (numRowsA === null) return null;
+            numRowsA = parseInt(numRowsA);
+
+            // Number of columns in matrix A
+            let numColsA = window.prompt('Number of columns in matrix A: ');
+            if (numColsA === null) return null;
+            numColsA = parseInt(numColsA);
+
+            // Number of columns in matrix B
+            let numColsB = window.prompt('Number of columns in matrix B: ');
+            if (numColsB === null) return null;
+            numColsB = parseInt(numColsB);
+
+            // Elements in Matrix A
+            let elementsA = window.prompt('Elements in Matrix A (space-separated): ');
+            if (elementsA === null) return null;
+            elementsA = elementsA.trim().split(' ').map(Number);
+
+            // Elements in Matrix B
+            let elementsB = window.prompt('Elements in Matrix B (space-separated): ');
+            if (elementsB === null) return null;
+            elementsB = elementsB.trim().split(' ').map(Number);
+
+            // Construct matrices from elements
+            let matrixA = [];
+            for (let i = 0; i < numRowsA; i++) {
+                matrixA.push(elementsA.slice(i * numColsA, (i + 1) * numColsA));
+            }
+            let matrixB = [];
+            for (let i = 0; i < elementsB.length / numColsB; i++) {
+                matrixB.push(elementsB.slice(i * numColsB, (i + 1) * numColsB));
+            }
+
+            // Display counters
+            console.log(`Number of rows in Matrix A: ${numRowsA}`);
+            console.log(`Number of columns in Matrix A: ${numColsA}`);
+            console.log(`Number of columns in Matrix B: ${numColsB}`);
+            console.log(`Elements in Matrix A: ${elementsA.join(' ')}`);
+            console.log(`Elements in Matrix B: ${elementsB.join(' ')}`);
+
+            result = ''; // Set result to non-null to proceed
+        } else {
+            return null;
+        }
+
         if (!result) {
-          return null;
+            return null;
         }
         FS_stdin_getChar_buffer = intArrayFromString(result, true);
-      }
-      return FS_stdin_getChar_buffer.shift();
-    };
+    }
+    return FS_stdin_getChar_buffer.shift();
+};
+
   var TTY = {
   ttys:[],
   init() {
